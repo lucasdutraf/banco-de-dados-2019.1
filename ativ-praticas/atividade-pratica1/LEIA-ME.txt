@@ -1,0 +1,2 @@
+Este programa foi feito utilizando Python 3, logo para executá-lo basta executar o seguinte comando:
+python3 aula2exer1_LucasDutra_17-0050939.py
