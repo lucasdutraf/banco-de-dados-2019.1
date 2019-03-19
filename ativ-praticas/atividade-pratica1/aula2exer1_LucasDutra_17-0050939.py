@@ -1,7 +1,4 @@
 import os
-#falta filtrar saída, para não haver repetições e tudo sair ordenado
-#dar append no array no começo do programa
-
 
 class Person:
     def __init__(self, name, cpf):
@@ -25,17 +22,18 @@ print('Bem vindo ao sistema de gerenciamento de carros!!\n\n')
 
 array = []
 
-read_fileOpened = open('banco.txt', 'r')
 
-if os.stat('banco.txt').st_size != 0:
-            aux_array = read_fileOpened.readlines()
-            aux_array_range = len(aux_array)
-            for line in range(aux_array_range):
-                vehicles_values = aux_array[line].split(' ')
-                aux_vehicle = Vehicle(vehicles_values[0], vehicles_values[1], vehicles_values[2])
-                aux_vehicle.addOwner(vehicles_values[4], vehicles_values[3])
-                array.append(aux_vehicle)
-
+if os.path.isfile('./banco.txt'):
+    read_fileOpened = open('banco.txt', 'r')
+    if os.stat('banco.txt').st_size != 0:
+                aux_array = read_fileOpened.readlines()
+                aux_array_range = len(aux_array)
+                for line in range(aux_array_range):
+                    vehicles_values = aux_array[line].split(' ')
+                    input_name = vehicles_values[4].strip()
+                    aux_vehicle = Vehicle(vehicles_values[0], vehicles_values[1], vehicles_values[2])
+                    aux_vehicle.addOwner(input_name, vehicles_values[3])
+                    array.append(aux_vehicle)
 
 user_input = input("""
 ----------------------------------------
@@ -59,31 +57,14 @@ while user_input != '0':
         array.append(vehicle)
 
     elif user_input == '2':
-        # read_fileOpened = open('banco.txt', 'r')
-        # if len(array) == 0:
-        #     display_array = []
-        # else:
-        #     display_array = array    
-        # if os.stat('banco.txt').st_size != 0:
-        #     aux_array = read_fileOpened.readlines()
-        #     aux_array_range = len(aux_array)
-        #     for line in range(aux_array_range):
-        #         vehicles_values = aux_array[line].split(' ')
-        #         aux_vehicle = Vehicle(vehicles_values[0], vehicles_values[1], vehicles_values[2])
-        #         aux_vehicle.addOwner(vehicles_values[4], vehicles_values[3])
-        #         display_array.append(aux_vehicle)
-        
         array.sort(key=lambda x: x._owner['name'])
-        print('\n\n\nRENAVAM   MODELO   PLACA   CPF-VINCULADO DONO(A)\n')
+        print('\n\n--------------------LISTA DE VEÍCULOS-----------------')
+        print('\nRENAVAM   MODELO   PLACA   CPF-VINCULADO DONO(A)\n')
         tamanho = len(array)
 
         for i in range(tamanho):
             print('{} {} {} {} {}\n'.format(array[i].renavam, array[i].model, array[i].licensePlate, array[i]._owner['cpf'], array[i]._owner['name']))
-        #print('\n\n\n')
-
-        # read_fileOpened.close()
-
-        
+        print('------------------------------------------------------')        
     else:
         print('Por favor, digite uma opção válida.')
 
@@ -96,8 +77,6 @@ while user_input != '0':
 \n 
 Digite uma das opções listadas: """)
 
-read_fileOpened.close()
-
 fileOpened = open('banco.txt', 'w')
 
 array.sort(key=lambda x: x._owner['name'])
@@ -106,9 +85,6 @@ tamanho = len(array)
 
 for i in range(tamanho):
     fileOpened.write('{} {} {} {} {}'.format(array[i].renavam, array[i].model, array[i].licensePlate, array[i]._owner['cpf'], array[i]._owner['name']))
-
+    fileOpened.write('\n')
 
 fileOpened.close()
-#salvar no arquivo no final do programa para ter o sort antes
-
-#ordenar a cada iteração do while
