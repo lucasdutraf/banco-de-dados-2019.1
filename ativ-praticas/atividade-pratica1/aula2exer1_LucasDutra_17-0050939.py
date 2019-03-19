@@ -22,14 +22,19 @@ print('Bem vindo ao sistema de gerenciamento de carros!!')
 array = []
 
 user_input = input("""
+----------------------------------------
 (1) Inserir um novo veículo ao sistema.
 (2) Listar todos os carros inseridos.
-(0) Sair do programa.\n 
+(0) Sair do programa.
+----------------------------------------
+\n 
 Digite uma das opções listadas: """)
 
-fileOpened = open('banco.txt', 'w+')
+fileOpened = open('banco.txt', 'a+')
 times_repeated = 0
-fileOpened.write('RENAVAM   MODELO   PLACA   CPF DO DONO(A)\n')
+if os.stat('banco.txt').st_size == 0:
+    fileOpened.write('RENAVAM   MODELO   PLACA   CPF DO DONO(A)\n')
+    
 while user_input != '0':
 
     if user_input == '1':
@@ -51,9 +56,12 @@ while user_input != '0':
 
     times_repeated = times_repeated + 1
     user_input = input("""
+----------------------------------------
 (1) Inserir um novo veículo ao sistema.
 (2) Listar todos os carros inseridos.
-(0) Sair do programa.\n 
+(0) Sair do programa.
+----------------------------------------
+\n 
 Digite uma das opções listadas: """)
 
 
