@@ -1,0 +1,58 @@
+CREATE TABLE ESPECIALIDADE (
+	`nomeEspecialidade`	varchar(20)	NOT NULL,
+    `codEspecialidade`	integer NOT NULL,
+    primary key(codEspecialidade)
+);
+CREATE TABLE MEDICO (
+	`crm`	numeric(8) NOT NULL,
+    `nome`	varchar(30)	NOT NULL,
+    primary key(crm)
+);
+CREATE TABLE RECEITA (
+	`data`	date	NOT NULL,
+    `idReceita` integer NOT NULL auto_increment,
+    primary key(idReceita)
+);
+CREATE TABLE MEDICAMENTO (
+	`descricao` varchar(30) NOT NULL,
+    `codMedicamento` numeric(10) NOT NULL,
+    `nome`	varchar(20)	NOT NULL,
+    primary key(codMedicamento)
+);
+CREATE TABLE PACIENTE (
+	`cpf`	numeric(11) NOT NULL,
+    `nome`	varchar(40) NOT NULL, 
+    `idade`	tinyint NOT NULL,
+    `sexo` enum('M', 'F') NOT NULL,
+    `cidade`	varchar(30) NOT NULL,
+    `bairro`	varchar(30) NOT NULL,
+    `estado`	char(2) NOT NULL,
+    `cep`		numeric(8) NOT NULL,
+    `complemento`	varchar(30),
+    primary key(cpf)
+);
+CREATE TABLE possui (
+	crm numeric(8),
+    codEspec integer,
+	constraint fk_crm FOREIGN KEY (crm) REFERENCES MEDICO(crm),
+    constraint fk_codEspecialidade FOREIGN KEY (codEspec) REFERENCES ESPECIALIDADE (codEspecialidade)
+);
+CREATE TABLE CONSULTA (
+	dt date NOT NULL,
+    crma numeric(8) ,
+    cpfa numeric(11),
+ 	constraint fk_crm FOREIGN KEY (crma) REFERENCES MEDICO (crm),
+ 	constraint fk_cpf FOREIGN KEY (cpfa) REFERENCES PESSOA (cpf),
+	PRIMARY KEY(crma, cpfa, dt)
+);
+CREATE TABLE contem (
+	idRec integer,
+    codMedic numeric(10),
+	FOREIGN KEY(idRec) REFERENCES RECEITA(idReceita),
+ 	FOREIGN KEY(codMedic) REFERENCES MEDICAMENTO(codMedicamento)
+);
+CREATE TABLE telefone (
+	cpf numeric(11),
+ 	constraint fk_cpf FOREIGN KEY (cpf) REFERENCES PESSOA (cpf),
+ 	telefone	numeric(9)
+);
